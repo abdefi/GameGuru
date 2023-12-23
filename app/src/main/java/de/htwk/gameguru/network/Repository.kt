@@ -5,6 +5,7 @@ import de.htwk.gameguru.data.module.Games
 
 interface Repository {
     suspend fun getGames(): List<Games>
+    suspend fun getCovers(id: String): String
 }
 
 class RepositoryImpl(
@@ -24,6 +25,10 @@ class RepositoryImpl(
         }
 
         return gamesList
+    }
+
+    override suspend fun getCovers(id: String): String {
+        return dataSource.getCovers(id)
     }
 
 }

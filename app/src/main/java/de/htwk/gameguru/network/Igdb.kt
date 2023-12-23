@@ -1,6 +1,7 @@
 package de.htwk.gameguru.network
 
 
+import de.htwk.gameguru.network.api.CoverResponse
 import de.htwk.gameguru.network.api.GamesData
 import de.htwk.gameguru.network.api.LoginResponse
 import retrofit2.Response
@@ -16,6 +17,8 @@ interface IgdbApi {
     @GET("series")
     suspend fun getSeries(
         @Header("Authorization") authHeader: String,
+        @Header("Client-ID") clientId: String,
+        @Header("Content-Type") contentType: String = "application/json",
         @Body select: String = "fields *;"
     ): Response<List<GamesData>>
 
@@ -26,6 +29,14 @@ interface IgdbApi {
         @Query("client_secret") clientSecret: String,
         @Query("grant_type") grantType: String = "client_credentials"
     ): Response<LoginResponse>
+
+    @POST("covers")
+    suspend fun getCovers(
+        @Header("Authorization") authHeader: String,
+        @Header("Client-ID") clientId: String,
+        @Header("Content-Type") contentType: String = "application/json",
+        @Body select: String
+    ): Response<CoverResponse>
 
 }
 
