@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.ksp)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -38,6 +40,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -47,6 +50,10 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+
+    }
+    secrets {
+        propertiesFileName = "secrets.properties"
     }
 }
 
@@ -67,4 +74,15 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.moshiConverter)
+    implementation(libs.retrofit.loggingInterceptor)
+    implementation(libs.moshi.core)
+    implementation(libs.moshi.adapters)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+    implementation(libs.coil.compose)
+    ksp(libs.moshi.annotationProcessor)
+    implementation(libs.navigation)
 }
