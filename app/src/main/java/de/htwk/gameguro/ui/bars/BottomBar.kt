@@ -8,13 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import de.htwk.gameguro.ui.MainActivity
+import de.htwk.gameguro.ui.navigation.Screens
 
-val navigatableItems = listOf(
-    MainActivity.Screens.Search,
-    MainActivity.Screens.Home,
-    MainActivity.Screens.Bookmarks,
-)
+val navigatableItems =
+    listOf(
+        Screens.Search,
+        Screens.Home,
+        Screens.Bookmarks,
+    )
 
 @Composable
 fun BottomBar(
@@ -23,18 +24,20 @@ fun BottomBar(
     navToSearch: () -> (Unit) = {},
     navToBookmarks: () -> (Unit) = {},
 ) {
-    NavigationBar (
-        modifier = Modifier.fillMaxWidth()
-    ){
+    NavigationBar(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
         navigatableItems.forEach { screen ->
             NavigationBarItem(
-                icon ={
-                    Icon(painter = painterResource(id = screen.icon), contentDescription = null) },
+                icon = {
+                    Icon(painter = painterResource(id = screen.icon), contentDescription = null)
+                },
                 onClick = {
-                    when(screen) {
-                        MainActivity.Screens.Search -> navToSearch()
-                        MainActivity.Screens.Home -> navToHome()
-                        MainActivity.Screens.Bookmarks -> navToBookmarks()
+                    when (screen) {
+                        Screens.Search -> navToSearch()
+                        Screens.Home -> navToHome()
+                        Screens.Bookmarks -> navToBookmarks()
+                        else -> {}
                     }
                 },
                 selected = currentPage == screen.name,
@@ -47,6 +50,6 @@ fun BottomBar(
 @Composable
 fun BottomBarPreview() {
     BottomBar(
-        currentPage = MainActivity.Screens.Home.name,
+        currentPage = Screens.Home.name,
     )
 }

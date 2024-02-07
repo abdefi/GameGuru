@@ -3,4 +3,5 @@
     <string name="home_screen">HomeScreen</string>
     <string name="search_screen">SearchScreen</string>
     <string name="bookmarks_screen">BookmarksScreen</string>
+    <string name="details_screen">DetailsScreen</string>
 </resources>
