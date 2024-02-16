@@ -11,4 +11,5 @@ data class GameDataApi(
     @Json(name = "summary") val summary: String = "",
     @Json(name = "cover") val cover: CoverDataApi = CoverDataApi(""),
     @Json(name = "screenshots") val screenshots: List<ScreenshotsData> = emptyList(),
+    @Json(name = "involved_companies") val involvedCompanies: List<InvolvedDataCompanies> = emptyList(),
 )

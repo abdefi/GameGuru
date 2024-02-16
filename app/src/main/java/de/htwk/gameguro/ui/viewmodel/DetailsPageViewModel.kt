@@ -1,6 +1,5 @@
 package de.htwk.gameguro.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +16,6 @@ class DetailsPageViewModel(
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val gameId = requireNotNull(savedStateHandle.get<Int>("gameId"))
-
     private val _game: MutableStateFlow<Game> =
         MutableStateFlow(
             Game(
@@ -27,6 +25,7 @@ class DetailsPageViewModel(
                 coverId = "Loading...",
                 rating = 0.0,
                 screenshots = emptyList(),
+                involvedCompanies = emptyList(),
             ),
         )
 
@@ -39,7 +38,6 @@ class DetailsPageViewModel(
     private fun loadData() {
         viewModelScope.launch {
             _game.update {
-                Log.d("RemotePostsDataSource", "getPosts: ${_game}")
                 gamesRepository.getGameDetails(gameId)
             }
         }
