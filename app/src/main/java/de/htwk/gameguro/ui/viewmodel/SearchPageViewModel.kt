@@ -24,9 +24,10 @@ class SearchPageViewModel(
 
     fun searchStringChange(text: String){
         _searchString.value = text
+        searching()
     }
 
-    fun searching(){
+    private fun searching(){
 
         val currentSearch = _searchString.value
         if (currentSearch != ""){
