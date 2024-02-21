@@ -49,7 +49,7 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
     override suspend fun getSearch(searchstring: String): List<GameDataApi> {
         val response =
             api.getGames(
-                body = "search \\\"$searchstring\\\"; fields *,cover.image_id,rating,screenshots.image_id; limit 20;"
+                body = "search \"$searchstring\"; fields *,cover.image_id,rating,screenshots.image_id; limit 20;"
             )
         val responseBody = response.body()
         Log.d("RemotePostsDataSource", "getPosts: ${response.body()}")

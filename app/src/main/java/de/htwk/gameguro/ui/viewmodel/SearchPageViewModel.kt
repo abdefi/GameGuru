@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.htwk.gameguro.modules.Game
 import de.htwk.gameguro.network.GamesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,6 +34,7 @@ class SearchPageViewModel(
         if (currentSearch != ""){
             isSearching.value = true
             viewModelScope.launch {
+                delay(300)
                 _games.value = gamesRepository.getSearch(currentSearch)
             }
 
