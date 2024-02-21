@@ -5,6 +5,7 @@ import de.htwk.gameguro.network.GamesRepository
 import de.htwk.gameguro.network.GamesRepositoryImpl
 import de.htwk.gameguro.network.RemoteGamesDataSource
 import de.htwk.gameguro.network.RemoteGamesDataSourceImpl
+import de.htwk.gameguro.ui.viewmodel.SearchPageViewModel
 import de.htwk.gameguro.ui.viewmodel.HomePageViewModel
 import de.htwk.gameguro.ui.viewmodel.DetailsPageViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -17,4 +18,7 @@ val appModule = module {
     singleOf(::RemoteGamesDataSourceImpl) bind RemoteGamesDataSource::class
     viewModelOf(::HomePageViewModel)
     viewModelOf(::DetailsPageViewModel)
+    viewModelOf(::SearchPageViewModel)
 }
+
+
