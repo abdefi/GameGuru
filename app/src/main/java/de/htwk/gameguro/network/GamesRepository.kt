@@ -1,5 +1,6 @@
 package de.htwk.gameguro.network
 
+import android.util.Log
 import de.htwk.gameguro.modules.Game
 import okhttp3.internal.format
 
@@ -7,6 +8,8 @@ interface GamesRepository {
     suspend fun getGames(): List<Game>
 
     suspend fun getGameDetails(gameId: Int): Game
+
+    suspend fun getSearch(searchString: String): List<Game>
 }
 
 class GamesRepositoryImpl(
@@ -42,6 +45,25 @@ class GamesRepositoryImpl(
             screenshots = game[0].screenshots.map { it.id },
             involvedCompanies = game[0].involvedCompanies.map { it.company.name },
         )
+    }
+    override suspend fun getSearch(searchString: String): List<Game> {
+        val games = remoteGamesDataSource.getSearch(searchString)
+        val gamesList = mutableListOf<Game>()
+        games.forEach { game ->
+            Log.d("PostsRepositoryImpl", "getPosts: $game")
+            gamesList.add(
+                Game(
+                    id = game.id,
+                    name = game.title,
+                    summary = game.summary,
+                    coverId = game.cover.imageId,
+                    rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
+                    screenshots = game.screenshots.map { it.id },
+                    involvedCompanies = game.involvedCompanies.map { it.company.name },
+                ),
+            )
+        }
+        return gamesList
     }
 }
 

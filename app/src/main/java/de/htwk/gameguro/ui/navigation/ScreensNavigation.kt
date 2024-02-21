@@ -19,6 +19,7 @@ import de.htwk.gameguro.R
 import de.htwk.gameguro.ui.bars.BottomBar
 import de.htwk.gameguro.ui.screens.DetailsGamePage
 import de.htwk.gameguro.ui.screens.HomePage
+import de.htwk.gameguro.ui.screens.SearchPage
 
 enum class Screens(
     @StringRes val title: Int,
@@ -84,20 +85,30 @@ fun ScreensNavigation() {
                     navController.navigate(Screens.DetailsGame.name + "/${game.id}")
                 })
             }
+            composable(route = Screens.Search.name) {
+                SearchPage(
+                    onUpClick = {
+                        game ->
+                        navController.navigate(Screens.DetailsGame.name + "/${game.id}")
+                    }
+                )
+            }
             composable(
                 route = Screens.DetailsGame.name + "/{gameId}",
                 arguments =
-                    listOf(
-                        navArgument("gameId") {
-                            type = NavType.IntType
-                        },
-                    ),
+                listOf(
+                    navArgument("gameId") {
+                        type = NavType.IntType
+                    },
+                ),
             ) {
                 DetailsGamePage(onUpClick = { navController.navigateUp() })
             }
         }
     }
 }
+
+
 
 @Preview
 @Composable
