@@ -1,5 +1,6 @@
 package de.htwk.gameguro.network
 
+import android.util.Log
 import de.htwk.gameguro.modules.Game
 import okhttp3.internal.format
 
@@ -58,6 +59,7 @@ class GamesRepositoryImpl(
                     coverId = game.cover.imageId,
                     rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
                     screenshots = game.screenshots.map { it.id },
+                    involvedCompanies = game.involvedCompanies.map { it.company.name },
                 ),
             )
         }
