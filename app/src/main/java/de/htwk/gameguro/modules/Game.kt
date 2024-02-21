@@ -7,4 +7,5 @@ data class Game(
     val coverId: String,
     val rating: Double,
     val screenshots: List<String>,
+    val involvedCompanies: List<String>,
 )

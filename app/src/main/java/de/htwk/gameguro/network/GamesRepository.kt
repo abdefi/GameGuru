@@ -1,6 +1,5 @@
 package de.htwk.gameguro.network
 
-import android.util.Log
 import de.htwk.gameguro.modules.Game
 import okhttp3.internal.format
 
@@ -17,7 +16,6 @@ class GamesRepositoryImpl(
         val games = remoteGamesDataSource.getGames()
         val gamesList = mutableListOf<Game>()
         games.forEach { game ->
-            Log.d("PostsRepositoryImpl", "getPosts: $game")
             gamesList.add(
                 Game(
                     id = game.id,
@@ -26,6 +24,7 @@ class GamesRepositoryImpl(
                     coverId = game.cover.imageId,
                     rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
                     screenshots = game.screenshots.map { it.id },
+                    involvedCompanies = game.involvedCompanies.map { it.company.name },
                 ),
             )
         }
@@ -41,6 +40,7 @@ class GamesRepositoryImpl(
             coverId = game[0].cover.imageId,
             rating = format("%.1f", (game[0].rating) / (100 / 5)).toDouble(),
             screenshots = game[0].screenshots.map { it.id },
+            involvedCompanies = game[0].involvedCompanies.map { it.company.name },
         )
     }
 }

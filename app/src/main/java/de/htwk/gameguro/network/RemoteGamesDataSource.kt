@@ -32,10 +32,9 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
     override suspend fun getGameDetails(gameId: Int): List<GameDataApi> {
         val response =
             api.getGames(
-                body = "fields *,cover.image_id,rating,screenshots.image_id; where id = $gameId;",
+                body = "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; where id = $gameId;",
             )
         val responseBody = response.body()
-        Log.d("RemotePostsDataSource", "getPosts: ${response.body()}")
         val game =
             if (response.isSuccessful && responseBody != null) {
                 responseBody
