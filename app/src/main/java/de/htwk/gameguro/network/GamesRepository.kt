@@ -8,6 +8,8 @@ interface GamesRepository {
     suspend fun getGames(): List<Game>
 
     suspend fun getGameDetails(gameId: Int): Game
+
+    suspend fun getSearch(searchString: String): List<Game>
 }
 
 class GamesRepositoryImpl(
@@ -42,6 +44,24 @@ class GamesRepositoryImpl(
             rating = format("%.1f", (game[0].rating) / (100 / 5)).toDouble(),
             screenshots = game[0].screenshots.map { it.id },
         )
+    }
+    override suspend fun getSearch(searchString: String): List<Game> {
+        val games = remoteGamesDataSource.getSearch(searchString)
+        val gamesList = mutableListOf<Game>()
+        games.forEach { game ->
+            Log.d("PostsRepositoryImpl", "getPosts: $game")
+            gamesList.add(
+                Game(
+                    id = game.id,
+                    name = game.title,
+                    summary = game.summary,
+                    coverId = game.cover.imageId,
+                    rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
+                    screenshots = game.screenshots.map { it.id },
+                ),
+            )
+        }
+        return gamesList
     }
 }
 
