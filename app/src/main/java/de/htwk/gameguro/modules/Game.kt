@@ -6,4 +6,5 @@ data class Game(
     val summary: String,
     val coverId: String,
     val rating: Double,
+    val screenshots: List<String>,
 )
