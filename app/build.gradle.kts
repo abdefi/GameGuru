@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.application)
@@ -20,6 +23,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val properties =  Properties()
+        properties.load(project.rootProject.file("secret.properties").inputStream())
+
+        buildConfigField("String", "authHeader", "\"${properties.getProperty("authHeader")}\"")
+        buildConfigField("String", "clientId", "\"${properties.getProperty("clientId")}\"")
+
     }
 
     buildTypes {
@@ -40,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"

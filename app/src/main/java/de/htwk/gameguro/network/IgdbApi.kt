@@ -1,5 +1,6 @@
 package de.htwk.gameguro.network
 
+import de.htwk.gameguro.BuildConfig
 import de.htwk.gameguro.network.api.GameDataApi
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -21,8 +22,8 @@ val jsonPlaceholderApi = retrofit.create(JsonPlaceholderApi::class.java)
 interface JsonPlaceholderApi {
     @POST("games")
     suspend fun getGames(
-        @Header("Authorization") authHeader: String,
-        @Header("Client-ID") clientId: String,
+        @Header("Authorization") authHeader: String = BuildConfig.authHeader,
+        @Header("Client-ID") clientId: String = BuildConfig.clientId,
         @Body body: String = "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; limit 50;w rating >90;",
     ): Response<List<GameDataApi>>
 }
