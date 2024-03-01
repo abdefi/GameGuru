@@ -52,8 +52,10 @@ fun DetailsGamePage(
     viewModel: DetailsPageViewModel = koinViewModel(),
 ) {
     val game by viewModel.game.collectAsStateWithLifecycle()
+    val like by viewModel.like.collectAsStateWithLifecycle()
 
     DetailsGamePage(
+        like = like,
         game = game,
         onUpClick = onUpClick,
     )
@@ -62,6 +64,7 @@ fun DetailsGamePage(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsGamePage(
+    like: Boolean,
     game: Game,
     onUpClick: () -> Unit = {},
 ) {
@@ -90,7 +93,7 @@ fun DetailsGamePage(
                         onClick = {
                         },
                     ) {
-                        FavoriteButton()
+                        FavoriteButton(like)
                     }
                 },
                 modifier =
@@ -185,15 +188,16 @@ fun DetailsGamePage(
 
 @Composable
 fun FavoriteButton(
+    like: Boolean,
     modifier: Modifier = Modifier,
     color: Color = Color(0xffE91E63),
 ) {
-    var isFavorite by remember { mutableStateOf(false) }
+    Log.d("log", "like: $like")
 
     IconToggleButton(
-        checked = isFavorite,
+        checked = like,
         onCheckedChange = {
-            isFavorite = !isFavorite
+
         },
     ) {
         Icon(
@@ -204,7 +208,9 @@ fun FavoriteButton(
                     scaleY = 1.3f
                 },
             imageVector =
-                if (isFavorite) {
+
+                if (like) {
+
                     Icons.Filled.Favorite
                 } else {
                     Icons.Default.FavoriteBorder
@@ -212,11 +218,4 @@ fun FavoriteButton(
             contentDescription = null,
         )
     }
-}
-
-@Preview
-@Composable
-fun DetailsGamePagePreview() {
-    // Provide preview data
-    FavoriteButton()
 }

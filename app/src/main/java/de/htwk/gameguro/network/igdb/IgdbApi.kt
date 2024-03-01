@@ -1,4 +1,4 @@
-package de.htwk.gameguro.network
+package de.htwk.gameguro.network.igdb
 
 import de.htwk.gameguro.BuildConfig
 import de.htwk.gameguro.network.api.GameDataApi
@@ -26,4 +26,5 @@ interface JsonPlaceholderApi {
         @Header("Client-ID") clientId: String = BuildConfig.clientId,
         @Body body: String = "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; limit 50;w rating >90;",
     ): Response<List<GameDataApi>>
+
 }

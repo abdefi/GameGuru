@@ -2,6 +2,8 @@ package de.htwk.gameguro.network
 
 import android.util.Log
 import de.htwk.gameguro.modules.Game
+import de.htwk.gameguro.network.backend.RemoteWishListDataSource
+import de.htwk.gameguro.network.igdb.RemoteGamesDataSource
 import okhttp3.internal.format
 
 interface GamesRepository {
@@ -10,10 +12,13 @@ interface GamesRepository {
     suspend fun getGameDetails(gameId: Int): Game
 
     suspend fun getSearch(searchString: String): List<Game>
+
+    suspend fun getWishList(): List<Int>
 }
 
 class GamesRepositoryImpl(
     private val remoteGamesDataSource: RemoteGamesDataSource,
+    private val remoteWishListDataSource: RemoteWishListDataSource,
 ) : GamesRepository {
     override suspend fun getGames(): List<Game> {
         val games = remoteGamesDataSource.getGames()
@@ -65,6 +70,17 @@ class GamesRepositoryImpl(
         }
         return gamesList
     }
+
+    override suspend fun getWishList(): List<Int> {
+        val response = remoteWishListDataSource.getWishList()
+        val wishList = mutableListOf<Int>()
+        response.forEach { wishList.add(it.id.toInt())
+
+        }
+        return wishList
+    }
+
+
 }
 
 fun convertRatingToStars(rating: Float): Int {

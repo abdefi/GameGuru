@@ -29,7 +29,7 @@ android {
 
         buildConfigField("String", "authHeader", "\"${properties.getProperty("authHeader")}\"")
         buildConfigField("String", "clientId", "\"${properties.getProperty("clientId")}\"")
-
+        buildConfigField("String", "code", "\"${properties.getProperty("code")}\"")
     }
 
     buildTypes {

@@ -1,4 +1,4 @@
-package de.htwk.gameguro.network
+package de.htwk.gameguro.network.igdb
 
 import android.util.Log
 import de.htwk.gameguro.network.api.GameDataApi
