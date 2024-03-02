@@ -43,34 +43,28 @@ class DetailsPageViewModel(
         loadData()
     }
 
-  fun checked(){
-      check()
-  }
-
     private fun getBook() {
         viewModelScope.launch {
             _wishList.value = gamesRepository.getWishList()
-        }
-    }
-
-
-    private fun check() {
-
-        _wishList.value.forEach() {
-            Log.d("DetailsPageViewModel", "check: $it")
-            Log.d("DetailsPageViewModel", "check: $gameId")
-            if (it == gameId) {
-
-                Log.d("DetailsPageViewModel", "check: $it")
+            if (gameId in _wishList.value) {
+                Log.d("DetailsPageViewModel", "check: $wishList")
                 Log.d("DetailsPageViewModel", "check: ${_like.value}")
                 _like.value = true
             }
         }
     }
 
-
-
-
+    fun upadateLike() {
+        viewModelScope.launch {
+            if (_like.value) {
+                gamesRepository.removeWishList(gameId)
+                _like.value = false
+            } else {
+                gamesRepository.addWishList(gameId)
+                _like.value = true
+            }
+        }
+    }
 
     private fun loadData() {
         viewModelScope.launch {
@@ -80,4 +74,3 @@ class DetailsPageViewModel(
         }
     }
 }
-

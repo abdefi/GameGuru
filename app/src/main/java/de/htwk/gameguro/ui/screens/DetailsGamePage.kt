@@ -26,8 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,6 +55,9 @@ fun DetailsGamePage(
         like = like,
         game = game,
         onUpClick = onUpClick,
+        onClikedChange = {
+            viewModel.upadateLike()
+        },
     )
 }
 
@@ -67,6 +67,7 @@ fun DetailsGamePage(
     like: Boolean,
     game: Game,
     onUpClick: () -> Unit = {},
+    onClikedChange: () -> Unit,
 ) {
     Surface(
         color = Color.Transparent,
@@ -93,7 +94,7 @@ fun DetailsGamePage(
                         onClick = {
                         },
                     ) {
-                        FavoriteButton(like)
+                        FavoriteButton(like, onClikedChange = onClikedChange)
                     }
                 },
                 modifier =
@@ -191,13 +192,14 @@ fun FavoriteButton(
     like: Boolean,
     modifier: Modifier = Modifier,
     color: Color = Color(0xffE91E63),
+    onClikedChange: () -> Unit,
 ) {
     Log.d("log", "like: $like")
 
     IconToggleButton(
         checked = like,
         onCheckedChange = {
-
+            onClikedChange()
         },
     ) {
         Icon(
@@ -210,7 +212,6 @@ fun FavoriteButton(
             imageVector =
 
                 if (like) {
-
                     Icons.Filled.Favorite
                 } else {
                     Icons.Default.FavoriteBorder

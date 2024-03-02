@@ -14,6 +14,10 @@ interface GamesRepository {
     suspend fun getSearch(searchString: String): List<Game>
 
     suspend fun getWishList(): List<Int>
+
+    suspend fun addWishList(id: Int)
+
+    suspend fun removeWishList(id: Int)
 }
 
 class GamesRepositoryImpl(
@@ -51,6 +55,7 @@ class GamesRepositoryImpl(
             involvedCompanies = game[0].involvedCompanies.map { it.company.name },
         )
     }
+
     override suspend fun getSearch(searchString: String): List<Game> {
         val games = remoteGamesDataSource.getSearch(searchString)
         val gamesList = mutableListOf<Game>()
@@ -74,13 +79,19 @@ class GamesRepositoryImpl(
     override suspend fun getWishList(): List<Int> {
         val response = remoteWishListDataSource.getWishList()
         val wishList = mutableListOf<Int>()
-        response.forEach { wishList.add(it.id.toInt())
-
+        response.forEach {
+            wishList.add(it.id.toInt())
         }
         return wishList
     }
 
+    override suspend fun addWishList(id: Int) {
+        remoteWishListDataSource.addWishList(id)
+    }
 
+    override suspend fun removeWishList(id: Int) {
+        remoteWishListDataSource.deleteWishList(id)
+    }
 }
 
 fun convertRatingToStars(rating: Float): Int {

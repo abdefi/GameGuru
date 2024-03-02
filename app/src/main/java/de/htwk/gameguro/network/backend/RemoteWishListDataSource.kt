@@ -1,17 +1,18 @@
 package de.htwk.gameguro.network.backend
 
 import android.util.Log
+import de.htwk.gameguro.network.api.AddToWishlistDataApi
 import de.htwk.gameguro.network.api.WishListDataApi
-
 
 interface RemoteWishListDataSource {
     suspend fun getWishList(): List<WishListDataApi>
 
     suspend fun addWishList(id: Int)
-    suspend fun delteWishList(id: Int)
+
+    suspend fun deleteWishList(id: Int)
 }
 
- class RemoteWishListDataSourceImpl : RemoteWishListDataSource {
+class RemoteWishListDataSourceImpl : RemoteWishListDataSource {
     private val api: JsonPlaceholderWishList = jsonPlaceholderWishList
 
     override suspend fun getWishList(): List<WishListDataApi> {
@@ -21,27 +22,28 @@ interface RemoteWishListDataSource {
             "RemotePostsDataSource",
             "getPosts: ${response.body()}",
         )
-        val WishList =
+        val wishList =
             if (response.isSuccessful && responseBody != null) {
                 responseBody
             } else {
                 emptyList()
             }
 
-        return WishList
+        return wishList
     }
 
-    override suspend fun addWishList(id: Int){
-        val response =
-            api.addWishList(
-               body  = "\"id\": \"${id}\""
-            )
+    override suspend fun addWishList(id: Int) {
+        api.addWishList(
+            body =
+                AddToWishlistDataApi(
+                    id = id,
+                ),
+        )
     }
-    override suspend fun delteWishList(id: Int) {
-        val response =
-            api.deleteWishList(
-                id = id
-            )
 
+    override suspend fun deleteWishList(id: Int) {
+        api.deleteWishList(
+            id = id,
+        )
     }
 }

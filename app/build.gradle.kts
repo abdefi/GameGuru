@@ -1,5 +1,4 @@
 import java.util.Properties
-import java.io.FileInputStream
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -24,7 +23,7 @@ android {
             useSupportLibrary = true
         }
 
-        val properties =  Properties()
+        val properties = Properties()
         properties.load(project.rootProject.file("secret.properties").inputStream())
 
         buildConfigField("String", "authHeader", "\"${properties.getProperty("authHeader")}\"")
@@ -37,7 +36,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }

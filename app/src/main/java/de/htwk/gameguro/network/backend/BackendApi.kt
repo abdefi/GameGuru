@@ -1,7 +1,7 @@
 package de.htwk.gameguro.network.backend
 
-
 import de.htwk.gameguro.BuildConfig
+import de.htwk.gameguro.network.api.AddToWishlistDataApi
 import de.htwk.gameguro.network.api.WishListDataApi
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -30,12 +30,12 @@ interface JsonPlaceholderWishList {
     @POST("game")
     suspend fun addWishList(
         @Query("code") authHeader: String = BuildConfig.code,
-        @Body body: String,
-    )
+        @Body body: AddToWishlistDataApi,
+    ): Response<Unit>
 
-    @DELETE("game")
+    @DELETE("game/{id}")
     suspend fun deleteWishList(
-        @Query("code") authHeader: String = BuildConfig.code,
         @Path("id") id: Int,
-    )
+        @Query("code") authHeader: String = BuildConfig.code,
+    ): Response<Unit>
 }
