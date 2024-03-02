@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.htwk.gameguro.modules.Game
 import de.htwk.gameguro.network.GamesRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,12 +22,16 @@ class WishListViewModel(
     private val _games: MutableStateFlow<List<Game>> = MutableStateFlow(emptyList())
     val games: StateFlow<List<Game>> = _games.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
 
     init {
         getList()
     }
 
-    private fun getList() {
+
+
+    fun getList() {
 
         viewModelScope.launch {
             _wishList.value = gamesRepository.getWishList()
@@ -37,6 +42,7 @@ class WishListViewModel(
         }
 
     }
+
 
 
 

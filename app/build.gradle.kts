@@ -78,6 +78,9 @@ dependencies {
     implementation(libs.retrofit.moshiConverter)
     implementation(libs.retrofit.loggingInterceptor)
 
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.accompanist.swiperefresh)
+
     implementation(libs.moshi.core)
     implementation(libs.moshi.adapters)
     ksp(libs.moshi.annotationProcessor)

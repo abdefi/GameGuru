@@ -22,10 +22,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.SwipeRefreshState
 import de.htwk.gameguro.modules.Game
 import de.htwk.gameguro.ui.cards.HomePageCard
 import de.htwk.gameguro.ui.viewmodel.WishListViewModel
 import org.koin.androidx.compose.koinViewModel
+
 
 @Composable
 fun WishPage(
@@ -33,8 +37,13 @@ fun WishPage(
     viewModel: WishListViewModel = koinViewModel(),
 ) {
     val games by viewModel.games.collectAsStateWithLifecycle()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     Log.d("WishPage", "WishPage: $games")
+    val swipeRefreshState = SwipeRefreshState(isRefreshing = isLoading)
+
     WishPage(
+        viewModel = viewModel,
+        swipeRefreshState = swipeRefreshState,
         games = games,
         onUpClick = onUpClick,
     )
@@ -43,6 +52,8 @@ fun WishPage(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WishPage(
+    viewModel: WishListViewModel,
+    swipeRefreshState: SwipeRefreshState,
     games: List<Game>,
     onUpClick: (Game) -> Unit = {},
 ) {
@@ -57,6 +68,10 @@ fun WishPage(
                 title = { Text("WishList") },
                 modifier = Modifier.fillMaxWidth(),
             )
+            SwipeRefresh(
+                state= swipeRefreshState,
+                onRefresh = { viewModel.getList() },
+            ){
             LazyColumn(
                 modifier =
                 Modifier.weight(1f)
@@ -66,6 +81,7 @@ fun WishPage(
                 items(games, key = { it.id }) {
                     HomePageCard(games = it, onTap = onUpClick)
                 }
+            }
             }
         }
     }

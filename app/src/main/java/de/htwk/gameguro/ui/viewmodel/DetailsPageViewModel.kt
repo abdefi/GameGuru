@@ -52,7 +52,10 @@ class DetailsPageViewModel(
                 _like.value = true
             }
         }
+
     }
+
+
 
     fun upadateLike() {
         viewModelScope.launch {
