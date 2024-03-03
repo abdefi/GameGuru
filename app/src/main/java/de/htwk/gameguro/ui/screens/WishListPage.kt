@@ -1,8 +1,6 @@
 package de.htwk.gameguro.ui.screens
 
-
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,11 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import de.htwk.gameguro.modules.Game
-import de.htwk.gameguro.ui.cards.HomePageCard
+import de.htwk.gameguro.ui.components.HomePageCard
 import de.htwk.gameguro.ui.viewmodel.WishListViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -39,7 +36,6 @@ fun WishPage(
 ) {
     val games by viewModel.games.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    Log.d("WishPage", "WishPage: $games")
     val swipeRefreshState = SwipeRefreshState(isRefreshing = isLoading)
 
     WishPage(
@@ -77,8 +73,8 @@ fun WishPage(
                     modifier = Modifier.weight(1f).padding(bottom = 100.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    itemsIndexed(games) { index, game ->
-                        HomePageCard(games = game, onTap = onUpClick)
+                    items(games, key = { it.id }) {
+                        HomePageCard(games = it, onTap = onUpClick)
                     }
                 }
             }

@@ -1,15 +1,19 @@
 package de.htwk.gameguro.network.igdb
 
-import android.util.Log
 import de.htwk.gameguro.network.api.GameDataApi
 
 interface RemoteGamesDataSource {
     suspend fun getGames(): List<GameDataApi>
 
     suspend fun getGameDetails(gameId: Int): List<GameDataApi>
+
     suspend fun getSearch(searchstring: String): List<GameDataApi>
 
     suspend fun getGameForWishList(wishList: List<Int>): List<GameDataApi>
+
+    suspend fun getPopGames(): List<GameDataApi>
+
+    suspend fun getUpGames(): List<GameDataApi>
 }
 
 class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
@@ -18,10 +22,43 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
     override suspend fun getGames(): List<GameDataApi> {
         val response = api.getGames()
         val responseBody = response.body()
-        Log.d(
-            "RemotePostsDataSource",
-            "getPosts: ${response.body()}",
-        )
+        val games =
+            if (response.isSuccessful && responseBody != null) {
+                responseBody
+            } else {
+                emptyList()
+            }
+
+        return games
+    }
+
+    override suspend fun getPopGames(): List<GameDataApi> {
+        val response =
+            api.getGames(
+                body =
+                    "fields *,cover.image_id,rating,screenshots.image_id," +
+                        "involved_companies.company.name,platforms.abbreviation; limit 50;w rating >90;",
+            )
+        val responseBody = response.body()
+        val games =
+            if (response.isSuccessful && responseBody != null) {
+                responseBody
+            } else {
+                emptyList()
+            }
+
+        return games
+    }
+
+    override suspend fun getUpGames(): List<GameDataApi> {
+        val unixTime = System.currentTimeMillis() / 1000
+        val response =
+            api.getGames(
+                body =
+                    "fields *,cover.image_id,rating,screenshots.image_id," +
+                        "involved_companies.company.name,platforms.abbreviation; limit 50;w first_release_date > $unixTime;",
+            )
+        val responseBody = response.body()
         val games =
             if (response.isSuccessful && responseBody != null) {
                 responseBody
@@ -35,7 +72,9 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
     override suspend fun getGameDetails(gameId: Int): List<GameDataApi> {
         val response =
             api.getGames(
-                body = "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; where id = $gameId;"
+                body =
+                    "fields *,cover.image_id,rating,screenshots.image_id," +
+                        "involved_companies.company.name,platforms.abbreviation; where id = $gameId;",
             )
         val responseBody = response.body()
         val game =
@@ -47,18 +86,21 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
 
         return game
     }
+
     override suspend fun getSearch(searchstring: String): List<GameDataApi> {
         val response =
             api.getGames(
-                body = "search \"$searchstring\"; fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; limit 40;"
+                body =
+                    "search \"$searchstring\"; fields *,cover.image_id,rating,screenshots.image_id," +
+                        "involved_companies.company.name,platforms.abbreviation; limit 40;",
             )
         val responseBody = response.body()
-        val posts = if (response.isSuccessful && responseBody != null) {
-            responseBody
-
-        } else {
-            emptyList()
-        }
+        val posts =
+            if (response.isSuccessful && responseBody != null) {
+                responseBody
+            } else {
+                emptyList()
+            }
 
         return posts
     }
@@ -66,14 +108,17 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
     override suspend fun getGameForWishList(wishList: List<Int>): List<GameDataApi> {
         val response =
             api.getGames(
-                body = "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; where id = (${wishList.joinToString()});"
+                body =
+                    "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name,platforms.abbreviation; " +
+                        "where id = (${wishList.joinToString()});",
             )
         val responseBody = response.body()
-        val games = if (response.isSuccessful && responseBody != null) {
-            responseBody
-        } else {
-            emptyList()
-        }
+        val games =
+            if (response.isSuccessful && responseBody != null) {
+                responseBody
+            } else {
+                emptyList()
+            }
 
         return games
     }

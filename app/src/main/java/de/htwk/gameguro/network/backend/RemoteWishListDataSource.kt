@@ -1,6 +1,4 @@
 package de.htwk.gameguro.network.backend
-
-import android.util.Log
 import de.htwk.gameguro.network.api.AddToWishlistDataApi
 import de.htwk.gameguro.network.api.WishListDataApi
 
@@ -18,10 +16,6 @@ class RemoteWishListDataSourceImpl : RemoteWishListDataSource {
     override suspend fun getWishList(): List<WishListDataApi> {
         val response = api.getWish()
         val responseBody = response.body()
-        Log.d(
-            "RemotePostsDataSource",
-            "getPosts: ${response.body()}",
-        )
         val wishList =
             if (response.isSuccessful && responseBody != null) {
                 responseBody

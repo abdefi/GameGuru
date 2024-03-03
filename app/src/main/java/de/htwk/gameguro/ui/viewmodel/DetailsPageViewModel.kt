@@ -1,6 +1,5 @@
 package de.htwk.gameguro.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,6 +26,7 @@ class DetailsPageViewModel(
                 rating = 0.0,
                 screenshots = emptyList(),
                 involvedCompanies = emptyList(),
+                platforms = emptyList(),
             ),
         )
 
@@ -47,15 +47,10 @@ class DetailsPageViewModel(
         viewModelScope.launch {
             _wishList.value = gamesRepository.getWishList()
             if (gameId in _wishList.value) {
-                Log.d("DetailsPageViewModel", "check: $wishList")
-                Log.d("DetailsPageViewModel", "check: ${_like.value}")
                 _like.value = true
             }
         }
-
     }
-
-
 
     fun upadateLike() {
         viewModelScope.launch {
