@@ -15,6 +15,8 @@ interface GamesRepository {
 
     suspend fun getWishList(): List<Int>
 
+    suspend fun getGameList(gameList: List<Int>): List<Game>
+
     suspend fun addWishList(id: Int)
 
     suspend fun removeWishList(id: Int)
@@ -54,6 +56,25 @@ class GamesRepositoryImpl(
             screenshots = game[0].screenshots.map { it.id },
             involvedCompanies = game[0].involvedCompanies.map { it.company.name },
         )
+    }
+
+    override suspend fun getGameList(gameList: List<Int>): List<Game> {
+        val games = remoteGamesDataSource.getGameForWishList(gameList)
+        val gamesL = mutableListOf<Game>()
+        games.forEach { game ->
+            gamesL.add(
+                Game(
+                    id = game.id,
+                    name = game.title,
+                    summary = game.summary,
+                    coverId = game.cover.imageId,
+                    rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
+                    screenshots = game.screenshots.map { it.id },
+                    involvedCompanies = game.involvedCompanies.map { it.company.name },
+                ),
+            )
+        }
+        return gamesL
     }
 
     override suspend fun getSearch(searchString: String): List<Game> {

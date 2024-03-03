@@ -34,10 +34,11 @@ class WishListViewModel(
     fun getList() {
 
         viewModelScope.launch {
+            _games.value = emptyList()
             _wishList.value = gamesRepository.getWishList()
-            _wishList.value.forEach() {
-                _games.value = _games.value + gamesRepository.getGameDetails(it)
-            }
+            _games.value = gamesRepository.getGameList(_wishList.value)
+
+
 
         }
 

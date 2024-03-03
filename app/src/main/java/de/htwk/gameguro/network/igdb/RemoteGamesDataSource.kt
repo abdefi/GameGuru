@@ -8,6 +8,8 @@ interface RemoteGamesDataSource {
 
     suspend fun getGameDetails(gameId: Int): List<GameDataApi>
     suspend fun getSearch(searchstring: String): List<GameDataApi>
+
+    suspend fun getGameForWishList(wishList: List<Int>): List<GameDataApi>
 }
 
 class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
@@ -59,5 +61,20 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
         }
 
         return posts
+    }
+
+    override suspend fun getGameForWishList(wishList: List<Int>): List<GameDataApi> {
+        val response =
+            api.getGames(
+                body = "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; where id = (${wishList.joinToString()});"
+            )
+        val responseBody = response.body()
+        val games = if (response.isSuccessful && responseBody != null) {
+            responseBody
+        } else {
+            emptyList()
+        }
+
+        return games
     }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -72,20 +73,19 @@ fun WishPage(
                 state= swipeRefreshState,
                 onRefresh = { viewModel.getList() },
             ){
-            LazyColumn(
-                modifier =
-                Modifier.weight(1f)
-                    .padding(bottom = 100.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                items(games, key = { it.id }) {
-                    HomePageCard(games = it, onTap = onUpClick)
+                LazyColumn(
+                    modifier = Modifier.weight(1f).padding(bottom = 100.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    itemsIndexed(games) { index, game ->
+                        HomePageCard(games = game, onTap = onUpClick)
+                    }
                 }
             }
             }
         }
     }
-}
+
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
