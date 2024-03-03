@@ -57,7 +57,7 @@ fun HomePage(
         ) {
             item { Spacer(modifier = Modifier.padding(25.dp)) }
             item {
-                Text(text = "Upcoming Games", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(8.dp))
+                Text(text = "Upcoming games", style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(8.dp))
             }
 
             item {
