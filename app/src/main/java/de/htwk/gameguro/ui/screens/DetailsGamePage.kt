@@ -40,7 +40,6 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DetailsGamePage(
     onUpClick: () -> Unit,
-    modifier: Modifier = Modifier,
     viewModel: DetailsPageViewModel = koinViewModel(),
 ) {
     val game by viewModel.game.collectAsStateWithLifecycle()

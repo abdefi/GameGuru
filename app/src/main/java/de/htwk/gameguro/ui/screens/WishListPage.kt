@@ -1,13 +1,12 @@
 package de.htwk.gameguro.ui.screens
 
-
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -74,8 +73,8 @@ fun WishPage(
                     modifier = Modifier.weight(1f).padding(bottom = 100.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    itemsIndexed(games) { index, game ->
-                        HomePageCard(games = game, onTap = onUpClick)
+                    items(games, key = { it.id }) {
+                        HomePageCard(games = it, onTap = onUpClick)
                     }
                 }
             }

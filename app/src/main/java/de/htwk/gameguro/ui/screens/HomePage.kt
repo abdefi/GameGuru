@@ -30,11 +30,9 @@ fun HomePage(
     viewModel: HomePageViewModel = koinViewModel(),
 ) {
     val games by viewModel.games.collectAsStateWithLifecycle()
-    val gamesPop by viewModel.gamesPop.collectAsStateWithLifecycle()
     val gamesUp by viewModel.gamesUp.collectAsStateWithLifecycle()
 
     HomePage(
-        gamesPop = gamesPop,
         gamesUp = gamesUp,
         games = games,
         modifier = modifier,
@@ -46,7 +44,6 @@ fun HomePage(
 @Composable
 fun HomePage(
     games: List<Game>,
-    gamesPop: List<Game>,
     gamesUp: List<Game>,
     modifier: Modifier,
     onUpClick: (Game) -> Unit = {},

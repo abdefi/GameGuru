@@ -1,6 +1,4 @@
 package de.htwk.gameguro.network.backend
-
-import android.util.Log
 import de.htwk.gameguro.network.api.AddToWishlistDataApi
 import de.htwk.gameguro.network.api.WishListDataApi
 

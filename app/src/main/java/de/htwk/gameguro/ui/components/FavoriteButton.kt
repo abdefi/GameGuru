@@ -1,6 +1,5 @@
 package de.htwk.gameguro.ui.components
 
-import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -27,17 +26,17 @@ fun FavoriteButton(
         Icon(
             tint = color,
             modifier =
-            modifier.graphicsLayer {
-                scaleX = 1.3f
-                scaleY = 1.3f
-            },
+                modifier.graphicsLayer {
+                    scaleX = 1.3f
+                    scaleY = 1.3f
+                },
             imageVector =
 
-            if (like) {
-                Icons.Filled.Favorite
-            } else {
-                Icons.Default.FavoriteBorder
-            },
+                if (like) {
+                    Icons.Filled.Favorite
+                } else {
+                    Icons.Default.FavoriteBorder
+                },
             contentDescription = null,
         )
     }
