@@ -2,6 +2,8 @@ package de.htwk.gameguro.network
 
 import android.util.Log
 import de.htwk.gameguro.modules.Game
+import de.htwk.gameguro.network.backend.RemoteWishListDataSource
+import de.htwk.gameguro.network.igdb.RemoteGamesDataSource
 import okhttp3.internal.format
 
 interface GamesRepository {
@@ -10,10 +12,19 @@ interface GamesRepository {
     suspend fun getGameDetails(gameId: Int): Game
 
     suspend fun getSearch(searchString: String): List<Game>
+
+    suspend fun getWishList(): List<Int>
+
+    suspend fun getGameList(gameList: List<Int>): List<Game>
+
+    suspend fun addWishList(id: Int)
+
+    suspend fun removeWishList(id: Int)
 }
 
 class GamesRepositoryImpl(
     private val remoteGamesDataSource: RemoteGamesDataSource,
+    private val remoteWishListDataSource: RemoteWishListDataSource,
 ) : GamesRepository {
     override suspend fun getGames(): List<Game> {
         val games = remoteGamesDataSource.getGames()
@@ -46,6 +57,26 @@ class GamesRepositoryImpl(
             involvedCompanies = game[0].involvedCompanies.map { it.company.name },
         )
     }
+
+    override suspend fun getGameList(gameList: List<Int>): List<Game> {
+        val games = remoteGamesDataSource.getGameForWishList(gameList)
+        val gamesL = mutableListOf<Game>()
+        games.forEach { game ->
+            gamesL.add(
+                Game(
+                    id = game.id,
+                    name = game.title,
+                    summary = game.summary,
+                    coverId = game.cover.imageId,
+                    rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
+                    screenshots = game.screenshots.map { it.id },
+                    involvedCompanies = game.involvedCompanies.map { it.company.name },
+                ),
+            )
+        }
+        return gamesL
+    }
+
     override suspend fun getSearch(searchString: String): List<Game> {
         val games = remoteGamesDataSource.getSearch(searchString)
         val gamesList = mutableListOf<Game>()
@@ -64,6 +95,23 @@ class GamesRepositoryImpl(
             )
         }
         return gamesList
+    }
+
+    override suspend fun getWishList(): List<Int> {
+        val response = remoteWishListDataSource.getWishList()
+        val wishList = mutableListOf<Int>()
+        response.forEach {
+            wishList.add(it.id.toInt())
+        }
+        return wishList
+    }
+
+    override suspend fun addWishList(id: Int) {
+        remoteWishListDataSource.addWishList(id)
+    }
+
+    override suspend fun removeWishList(id: Int) {
+        remoteWishListDataSource.deleteWishList(id)
     }
 }
 

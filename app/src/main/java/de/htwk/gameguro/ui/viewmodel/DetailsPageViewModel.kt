@@ -1,5 +1,6 @@
 package de.htwk.gameguro.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,8 +32,41 @@ class DetailsPageViewModel(
 
     val game: StateFlow<Game> = _game.asStateFlow()
 
+    private val _like = MutableStateFlow(false)
+    val like: StateFlow<Boolean> = _like.asStateFlow()
+
+    private val _wishList: MutableStateFlow<List<Int>> = MutableStateFlow(emptyList())
+    val wishList: StateFlow<List<Int>> = _wishList.asStateFlow()
+
     init {
+        getBook()
         loadData()
+    }
+
+    private fun getBook() {
+        viewModelScope.launch {
+            _wishList.value = gamesRepository.getWishList()
+            if (gameId in _wishList.value) {
+                Log.d("DetailsPageViewModel", "check: $wishList")
+                Log.d("DetailsPageViewModel", "check: ${_like.value}")
+                _like.value = true
+            }
+        }
+
+    }
+
+
+
+    fun upadateLike() {
+        viewModelScope.launch {
+            if (_like.value) {
+                gamesRepository.removeWishList(gameId)
+                _like.value = false
+            } else {
+                gamesRepository.addWishList(gameId)
+                _like.value = true
+            }
+        }
     }
 
     private fun loadData() {

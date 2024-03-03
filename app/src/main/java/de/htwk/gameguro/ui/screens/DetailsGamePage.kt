@@ -26,8 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,7 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -52,18 +49,25 @@ fun DetailsGamePage(
     viewModel: DetailsPageViewModel = koinViewModel(),
 ) {
     val game by viewModel.game.collectAsStateWithLifecycle()
+    val like by viewModel.like.collectAsStateWithLifecycle()
 
     DetailsGamePage(
+        like = like,
         game = game,
         onUpClick = onUpClick,
+        onClikedChange = {
+            viewModel.upadateLike()
+        },
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsGamePage(
+    like: Boolean,
     game: Game,
     onUpClick: () -> Unit = {},
+    onClikedChange: () -> Unit,
 ) {
     Surface(
         color = Color.Transparent,
@@ -90,7 +94,7 @@ fun DetailsGamePage(
                         onClick = {
                         },
                     ) {
-                        FavoriteButton()
+                        FavoriteButton(like, onClikedChange = onClikedChange)
                     }
                 },
                 modifier =
@@ -185,15 +189,17 @@ fun DetailsGamePage(
 
 @Composable
 fun FavoriteButton(
+    like: Boolean,
     modifier: Modifier = Modifier,
     color: Color = Color(0xffE91E63),
+    onClikedChange: () -> Unit,
 ) {
-    var isFavorite by remember { mutableStateOf(false) }
+    Log.d("log", "like: $like")
 
     IconToggleButton(
-        checked = isFavorite,
+        checked = like,
         onCheckedChange = {
-            isFavorite = !isFavorite
+            onClikedChange()
         },
     ) {
         Icon(
@@ -204,7 +210,8 @@ fun FavoriteButton(
                     scaleY = 1.3f
                 },
             imageVector =
-                if (isFavorite) {
+
+                if (like) {
                     Icons.Filled.Favorite
                 } else {
                     Icons.Default.FavoriteBorder
@@ -212,11 +219,4 @@ fun FavoriteButton(
             contentDescription = null,
         )
     }
-}
-
-@Preview
-@Composable
-fun DetailsGamePagePreview() {
-    // Provide preview data
-    FavoriteButton()
 }

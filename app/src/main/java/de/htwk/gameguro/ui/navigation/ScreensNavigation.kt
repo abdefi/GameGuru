@@ -20,6 +20,7 @@ import de.htwk.gameguro.ui.bars.BottomBar
 import de.htwk.gameguro.ui.screens.DetailsGamePage
 import de.htwk.gameguro.ui.screens.HomePage
 import de.htwk.gameguro.ui.screens.SearchPage
+import de.htwk.gameguro.ui.screens.WishPage
 
 enum class Screens(
     @StringRes val title: Int,
@@ -89,6 +90,14 @@ fun ScreensNavigation() {
                 SearchPage(
                     onUpClick = {
                         game ->
+                        navController.navigate(Screens.DetailsGame.name + "/${game.id}")
+                    }
+                )
+            }
+            composable(route = Screens.Bookmarks.name) {
+                WishPage(
+                    onUpClick = {
+                            game ->
                         navController.navigate(Screens.DetailsGame.name + "/${game.id}")
                     }
                 )

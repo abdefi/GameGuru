@@ -1,3 +1,5 @@
+import java.util.Properties
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.application)
@@ -20,6 +22,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("secret.properties").inputStream())
+
+        buildConfigField("String", "authHeader", "\"${properties.getProperty("authHeader")}\"")
+        buildConfigField("String", "clientId", "\"${properties.getProperty("clientId")}\"")
+        buildConfigField("String", "code", "\"${properties.getProperty("code")}\"")
     }
 
     buildTypes {
@@ -27,7 +36,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -40,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
@@ -67,6 +77,9 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.moshiConverter)
     implementation(libs.retrofit.loggingInterceptor)
+
+    implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.accompanist.swiperefresh)
 
     implementation(libs.moshi.core)
     implementation(libs.moshi.adapters)
