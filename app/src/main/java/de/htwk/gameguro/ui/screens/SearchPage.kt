@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import de.htwk.gameguro.modules.Game
-import de.htwk.gameguro.ui.cards.HomePageCard
+import de.htwk.gameguro.ui.copmponents.HomePageCard
 import de.htwk.gameguro.ui.viewmodel.SearchPageViewModel
 import org.koin.androidx.compose.getViewModel
 

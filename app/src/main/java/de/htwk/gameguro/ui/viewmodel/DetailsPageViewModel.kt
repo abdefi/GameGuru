@@ -27,6 +27,7 @@ class DetailsPageViewModel(
                 rating = 0.0,
                 screenshots = emptyList(),
                 involvedCompanies = emptyList(),
+                platforms = emptyList(),
             ),
         )
 
@@ -52,10 +53,7 @@ class DetailsPageViewModel(
                 _like.value = true
             }
         }
-
     }
-
-
 
     fun upadateLike() {
         viewModelScope.launch {

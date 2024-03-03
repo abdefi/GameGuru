@@ -2,6 +2,7 @@ package de.htwk.gameguro.ui.bars
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -34,7 +35,7 @@ fun BottomBar(
         navigatableItems.forEach { screen ->
             NavigationBarItem(
                 icon = {
-                    Icon(painter = painterResource(id = screen.icon), contentDescription = null)
+                    Icon( modifier = Modifier .size(23.dp),painter = painterResource(id = screen.icon), contentDescription = null)
                 },
                 onClick = {
                     when (screen) {

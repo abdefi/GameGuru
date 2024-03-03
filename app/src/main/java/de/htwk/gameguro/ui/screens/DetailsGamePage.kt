@@ -13,13 +13,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconToggleButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import de.htwk.gameguro.modules.Game
+import de.htwk.gameguro.ui.copmponents.FavoriteButton
 import de.htwk.gameguro.ui.viewmodel.DetailsPageViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -153,6 +150,16 @@ fun DetailsGamePage(
             )
 
             Text(
+                text = "Platforms: ${game.platforms.joinToString()}",
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.Bold,
+                modifier =
+                    Modifier
+                        .align(Alignment.Start)
+                        .padding(16.dp),
+            )
+
+            Text(
                 text = "Rating: ${game.rating} stars",
                 style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Bold,
@@ -184,39 +191,5 @@ fun DetailsGamePage(
                 )
             }
         }
-    }
-}
-
-@Composable
-fun FavoriteButton(
-    like: Boolean,
-    modifier: Modifier = Modifier,
-    color: Color = Color(0xffE91E63),
-    onClikedChange: () -> Unit,
-) {
-    Log.d("log", "like: $like")
-
-    IconToggleButton(
-        checked = like,
-        onCheckedChange = {
-            onClikedChange()
-        },
-    ) {
-        Icon(
-            tint = color,
-            modifier =
-                modifier.graphicsLayer {
-                    scaleX = 1.3f
-                    scaleY = 1.3f
-                },
-            imageVector =
-
-                if (like) {
-                    Icons.Filled.Favorite
-                } else {
-                    Icons.Default.FavoriteBorder
-                },
-            contentDescription = null,
-        )
     }
 }

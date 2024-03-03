@@ -1,4 +1,4 @@
-package de.htwk.gameguro.ui.cards
+package de.htwk.gameguro.ui.copmponents
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -88,4 +88,17 @@ fun HomePageCard(
 @Preview
 @Composable
 fun GamesCardPreview() {
+    HomePageCard(
+        games =
+            Game(
+                id = 1,
+                name = "Game",
+                summary = "sa",
+                rating = 5.0,
+                coverId = "s2",
+                screenshots = listOf("s1"),
+                involvedCompanies = listOf("s1"),
+                platforms = listOf("s1"),
+            ),
+    )
 }

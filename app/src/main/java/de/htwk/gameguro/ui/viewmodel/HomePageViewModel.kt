@@ -13,9 +13,14 @@ import kotlinx.coroutines.launch
 class HomePageViewModel(
     private val gamesRepository: GamesRepository,
 ) : ViewModel() {
-
     private val _games: MutableStateFlow<List<Game>> = MutableStateFlow(emptyList())
     val games: StateFlow<List<Game>> = _games.asStateFlow()
+
+    private val _gamesPop: MutableStateFlow<List<Game>> = MutableStateFlow(emptyList())
+    val gamesPop: StateFlow<List<Game>> = _gamesPop.asStateFlow()
+
+    private val _gamesUp: MutableStateFlow<List<Game>> = MutableStateFlow(emptyList())
+    val gamesUp: StateFlow<List<Game>> = _gamesUp.asStateFlow()
 
     init {
         loadData()
@@ -23,6 +28,14 @@ class HomePageViewModel(
 
     private fun loadData() {
         viewModelScope.launch {
+            _gamesPop.update {
+                gamesRepository.getPopGames()
+            }
+
+            _gamesUp.update {
+                gamesRepository.getUpGames()
+            }
+
             _games.update {
                 gamesRepository.getGames()
             }

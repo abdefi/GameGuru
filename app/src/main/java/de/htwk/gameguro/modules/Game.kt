@@ -8,4 +8,5 @@ data class Game(
     val rating: Double,
     val screenshots: List<String>,
     val involvedCompanies: List<String>,
+    val platforms: List<String>,
 )
