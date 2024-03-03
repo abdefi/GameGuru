@@ -1,6 +1,5 @@
 package de.htwk.gameguro.network
 
-import android.util.Log
 import de.htwk.gameguro.modules.Game
 import de.htwk.gameguro.network.backend.RemoteWishListDataSource
 import de.htwk.gameguro.network.igdb.RemoteGamesDataSource
@@ -43,7 +42,7 @@ class GamesRepositoryImpl(
                     rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
                     screenshots = game.screenshots.map { it.id },
                     involvedCompanies = game.involvedCompanies.map { it.company.name },
-                    platforms = game.abbreviation.map { it.abbreviation.abbreviation },
+                    platforms = game.abbreviation.map { it.abbreviation },
                 ),
             )
         }
@@ -63,7 +62,7 @@ class GamesRepositoryImpl(
                     rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
                     screenshots = game.screenshots.map { it.id },
                     involvedCompanies = game.involvedCompanies.map { it.company.name },
-                    platforms = game.abbreviation.map { it.abbreviation.abbreviation },
+                    platforms = game.abbreviation.map { it.abbreviation },
                 ),
             )
         }
@@ -83,7 +82,7 @@ class GamesRepositoryImpl(
                     rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
                     screenshots = game.screenshots.map { it.id },
                     involvedCompanies = game.involvedCompanies.map { it.company.name },
-                    platforms = game.abbreviation.map { it.abbreviation.abbreviation },
+                    platforms = game.abbreviation.map { it.abbreviation },
                 ),
             )
         }
@@ -100,7 +99,7 @@ class GamesRepositoryImpl(
             rating = format("%.1f", (game[0].rating) / (100 / 5)).toDouble(),
             screenshots = game[0].screenshots.map { it.id },
             involvedCompanies = game[0].involvedCompanies.map { it.company.name },
-            platforms = game[0].abbreviation.map { it.abbreviation.abbreviation },
+            platforms = game[0].abbreviation.map { it.abbreviation },
         )
     }
 
@@ -117,7 +116,7 @@ class GamesRepositoryImpl(
                     rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
                     screenshots = game.screenshots.map { it.id },
                     involvedCompanies = game.involvedCompanies.map { it.company.name },
-                    platforms = game.abbreviation.map { it.abbreviation.abbreviation },
+                    platforms = game.abbreviation.map { it.abbreviation },
                 ),
             )
         }
@@ -128,7 +127,6 @@ class GamesRepositoryImpl(
         val games = remoteGamesDataSource.getSearch(searchString)
         val gamesList = mutableListOf<Game>()
         games.forEach { game ->
-            Log.d("PostsRepositoryImpl", "getPosts: $game")
             gamesList.add(
                 Game(
                     id = game.id,
@@ -138,7 +136,7 @@ class GamesRepositoryImpl(
                     rating = format("%.1f", (game.rating) / (100 / 5)).toDouble(),
                     screenshots = game.screenshots.map { it.id },
                     involvedCompanies = game.involvedCompanies.map { it.company.name },
-                    platforms = game.abbreviation.map { it.abbreviation.abbreviation },
+                    platforms = game.abbreviation.map { it.abbreviation },
                 ),
             )
         }
@@ -161,10 +159,4 @@ class GamesRepositoryImpl(
     override suspend fun removeWishList(id: Int) {
         remoteWishListDataSource.deleteWishList(id)
     }
-}
-
-fun convertRatingToStars(rating: Float): Int {
-    val ratingPerStar = 100 / 5 // 20 points per star
-    val stars = (rating / ratingPerStar).toInt()
-    return stars.coerceIn(0, 5) // Ensure stars is within the range [0, 5]
 }

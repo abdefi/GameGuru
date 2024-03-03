@@ -1,4 +1,4 @@
-package de.htwk.gameguro.ui.copmponents
+package de.htwk.gameguro.ui.components
 
 
 import androidx.compose.foundation.layout.Column
@@ -42,10 +42,8 @@ fun HomeSmallCard(
                 Modifier
                     .size(150.dp)
                     .clip(RoundedCornerShape(30.dp)),
-
                 contentScale = ContentScale.Inside,
             )
-
         }
     }
 }

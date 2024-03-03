@@ -25,7 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshState
 import de.htwk.gameguro.modules.Game
-import de.htwk.gameguro.ui.copmponents.HomePageCard
+import de.htwk.gameguro.ui.components.HomePageCard
 import de.htwk.gameguro.ui.viewmodel.WishListViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -37,7 +37,6 @@ fun WishPage(
 ) {
     val games by viewModel.games.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    Log.d("WishPage", "WishPage: $games")
     val swipeRefreshState = SwipeRefreshState(isRefreshing = isLoading)
 
     WishPage(

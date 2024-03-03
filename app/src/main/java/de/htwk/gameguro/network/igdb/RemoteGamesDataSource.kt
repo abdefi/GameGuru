@@ -23,10 +23,6 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
     override suspend fun getGames(): List<GameDataApi> {
         val response = api.getGames()
         val responseBody = response.body()
-        Log.d(
-            "RemotePostsDataSource",
-            "getPosts: ${response.body()}",
-        )
         val games =
             if (response.isSuccessful && responseBody != null) {
                 responseBody
@@ -42,13 +38,9 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
             api.getGames(
                 body =
                     "fields *,cover.image_id,rating,screenshots.image_id," +
-                        "involved_companies.company.name; limit 50;w rating >90;",
+                        "involved_companies.company.name,platforms.abbreviation; limit 50;w rating >90;",
             )
         val responseBody = response.body()
-        Log.d(
-            "RemotePostsDataSource",
-            "getPosts: ${response.body()}",
-        )
         val games =
             if (response.isSuccessful && responseBody != null) {
                 responseBody
@@ -65,13 +57,9 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
             api.getGames(
                 body =
                     "fields *,cover.image_id,rating,screenshots.image_id," +
-                        "involved_companies.company.name; limit 50;w first_release_date > $unixTime;",
+                        "involved_companies.company.name,platforms.abbreviation; limit 50;w first_release_date > $unixTime;",
             )
         val responseBody = response.body()
-        Log.d(
-            "RemotePostsDataSource",
-            "getPosts: ${response.body()}",
-        )
         val games =
             if (response.isSuccessful && responseBody != null) {
                 responseBody
@@ -105,7 +93,7 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
             api.getGames(
                 body =
                     "search \"$searchstring\"; fields *,cover.image_id,rating,screenshots.image_id," +
-                        "involved_companies.company.name; limit 40;",
+                        "involved_companies.company.name,platforms.abbreviation; limit 40;",
             )
         val responseBody = response.body()
         val posts =
@@ -122,7 +110,7 @@ class RemoteGamesDataSourceImpl : RemoteGamesDataSource {
         val response =
             api.getGames(
                 body =
-                    "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; " +
+                    "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name,platforms.abbreviation; " +
                         "where id = (${wishList.joinToString()});",
             )
         val responseBody = response.body()

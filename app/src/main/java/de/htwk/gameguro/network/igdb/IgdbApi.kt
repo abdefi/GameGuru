@@ -24,7 +24,8 @@ interface JsonPlaceholderApi {
     suspend fun getGames(
         @Header("Authorization") authHeader: String = BuildConfig.authHeader,
         @Header("Client-ID") clientId: String = BuildConfig.clientId,
-        @Body body: String = "fields *,cover.image_id,rating,screenshots.image_id,involved_companies.company.name; limit 50;w rating >90;",
+        @Body body: String =
+            "fields *,cover.image_id,rating,screenshots.image_id," +
+                "involved_companies.company.name,platforms.abbreviation; limit 50;w rating >90;",
     ): Response<List<GameDataApi>>
-
 }

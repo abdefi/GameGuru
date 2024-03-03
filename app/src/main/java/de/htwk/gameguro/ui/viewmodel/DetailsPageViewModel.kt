@@ -48,8 +48,6 @@ class DetailsPageViewModel(
         viewModelScope.launch {
             _wishList.value = gamesRepository.getWishList()
             if (gameId in _wishList.value) {
-                Log.d("DetailsPageViewModel", "check: $wishList")
-                Log.d("DetailsPageViewModel", "check: ${_like.value}")
                 _like.value = true
             }
         }

@@ -1,4 +1,4 @@
-package de.htwk.gameguro.ui.copmponents
+package de.htwk.gameguro.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

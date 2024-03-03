@@ -1,4 +1,4 @@
-package de.htwk.gameguro.ui.copmponents
+package de.htwk.gameguro.ui.components
 
 import android.util.Log
 import androidx.compose.material.icons.Icons
@@ -18,8 +18,6 @@ fun FavoriteButton(
     color: Color = Color(0xffE91E63),
     onClikedChange: () -> Unit,
 ) {
-    Log.d("log", "like: $like")
-
     IconToggleButton(
         checked = like,
         onCheckedChange = {
