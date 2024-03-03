@@ -78,6 +78,10 @@ fun HomePage(
             items(games, key = { it.id }) {
                 HomePageCard(games = it, onTap = onUpClick)
             }
+            item {
+                Spacer(modifier = Modifier.padding(50.dp))
+            }
         }
+
     }
 }
