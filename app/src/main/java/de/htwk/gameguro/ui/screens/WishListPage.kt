@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +26,6 @@ import de.htwk.gameguro.modules.Game
 import de.htwk.gameguro.ui.components.HomePageCard
 import de.htwk.gameguro.ui.viewmodel.WishListViewModel
 import org.koin.androidx.compose.koinViewModel
-
 
 @Composable
 fun WishPage(
@@ -62,13 +60,13 @@ fun WishPage(
             modifier = Modifier.fillMaxSize(),
         ) {
             CenterAlignedTopAppBar(
-                title = { Text("WishList") },
+                title = { Text("Wish list") },
                 modifier = Modifier.fillMaxWidth(),
             )
             SwipeRefresh(
-                state= swipeRefreshState,
+                state = swipeRefreshState,
                 onRefresh = { viewModel.getList() },
-            ){
+            ) {
                 LazyColumn(
                     modifier = Modifier.weight(1f).padding(bottom = 100.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -78,10 +76,9 @@ fun WishPage(
                     }
                 }
             }
-            }
         }
     }
-
+}
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
