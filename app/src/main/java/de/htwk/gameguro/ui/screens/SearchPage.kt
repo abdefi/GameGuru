@@ -82,6 +82,9 @@ fun SearchPage(
             items(games, key = { it.id }) {
                 HomePageCard(games = it, onTap = onUpClick)
             }
+            item {
+                Spacer(modifier = Modifier.padding(40.dp))
+            }
         }
     }
 }
